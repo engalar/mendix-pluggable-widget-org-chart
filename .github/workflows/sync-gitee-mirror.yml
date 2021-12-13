@@ -25,7 +25,7 @@ jobs:
         uses: abersheeran/sync-gitee-mirror@v1-beta
         with:
           # Gitee 仓库，例如 abersheeran/gitee-mirror
-          repository: ${{ env.GITHUB_REPOSITORY }}
+          repository: ${{ github.repository }}
           # Gitee 用户名，用于登录。
           username: ${{ secrets.gitee_name }}
           # Gitee 密码，用于登录。
