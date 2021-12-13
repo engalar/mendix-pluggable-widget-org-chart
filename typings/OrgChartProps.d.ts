@@ -1,5 +1,5 @@
 /**
- * This file was generated from TreeView.xml
+ * This file was generated from OrgChart.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Team
  */
@@ -35,7 +35,7 @@ export type StateManagementTypeEnum = "disabled" | "localStorage";
 
 export type StateLocalStorageTypeEnum = "session" | "local";
 
-export interface TreeViewContainerProps extends CommonProps {
+export interface OrgChartContainerProps extends CommonProps {
     nodeEntity: any;
     nodeDataSource: NodeDataSourceEnum;
     nodeConstraint?: any;
@@ -82,7 +82,7 @@ export interface TreeViewContainerProps extends CommonProps {
     experimentalExposeSetSelected: boolean;
 }
 
-export interface TreeViewPreviewProps {
+export interface OrgChartPreviewProps {
     class: string;
     style: string;
     styleObject: CSSProperties;

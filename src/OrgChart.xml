@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.custom.treeview.TreeView" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web"
+<widget id="com.mendix.widget.custom.orgchart.OrgChart" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web"
     xmlns="http://www.mendix.com/widget/1.0/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Tree View</name>
-    <description>TreeView for Mendix</description>
+    <name>组织架构图</name>
+    <description></description>
     <icon>iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAADh0lEQVR4nO3d8W3aQBiHYVx1BOObKkLKDp0qMwQZT5WEIahQSKVW0a8OiWwu9zyS/6eFNweG+24DAAAAAAAAAAAAAAAAAAAAAAAAAEAtHh8f7/u+P242m9Ma13a7fRnHcXc6nTY1Xnxza8bxdg3D8CyQOnQN/kG4iWf5dDpV+X/fdW29ZH7cwGOAm/Wz9admqb/kXdd5A18hKwgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCQfP7QezTILGCQNBcINvt9rj2YyilPK/9GOBd55E756kia000KaU8TdN0Z6pJHZqbanLtk/zvZ5Vap5J8lqkmgEBgDoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAikEvv9/v68n/68s3GNaxiGl8PhsGv9efj2PrEX+6+95UvvBe/7/rjWPvq367KXvyn2pM+09p70G5rf1dRrxlssCJqfrFirpVaw1idPWkEgEAgEAoFAIBAIBAJ3sa7U+t2dVlhBIBAIBAKBwGeQKzX8W6ymWEEgEAgEAoFAIBAIBAJ3sSrlrtYyrCAQCKQS54kmaz/SUkpzQxuaU+tUk3Ecd5epIqtMNCmlPE3TdNfa68VUk5nWnmpyK7qurX+2t1gQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKphHPSWYRz0p2T/hF2FM7knPQ/nJMOvDIXq1LOSV+GFQQCgUAgEAgEAoFAIHAX60qt391phRUEAoFAIBAIfAa5knPS22AFgUAgEAgEAoFAIBAI3MWqlLtay7CCQCCQSjgnnUU4J9056R9hqslMzkl/5Zx0QCAwh0AgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCARSif1+f3/el37e2bjGNQzDy+Fw2LX+PHx7te5J7/v+uNZ+9Lfrsie+Kfakz7T2nvQbmoPV1GvGWywITFas1FIrWOsTHK0gEAgEAoFAIBAIBAKBu1hXav3uTiusIBAIZKZbOJ+D5QlkpoeHh1/nH+xV8WD5Mn6LVYm1fgv2zmctv8UCBAL/JRAIBAKBQCDwTXqlfJO/DCsIBAKpxC18k19KaW5oQ3OWnkbyVdc4jrvLVJFVJpqUUp6mabpr/fUDAAAAAAAAAAAAAAAAAAAAAAAAAFCJzWbzG57uxl0Vfft2AAAAAElFTkSuQmCC</icon>
     <properties>
         <propertyGroup caption="Data Source">
