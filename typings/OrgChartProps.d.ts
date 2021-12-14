@@ -1,17 +1,10 @@
 /**
  * This file was generated from OrgChart.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix Widgets Team
+ * @author Mendix UI Content Team
  */
 import { CSSProperties } from "react";
 import { EditableValue } from "mendix";
-
-interface CommonProps {
-    name: string;
-    class: string;
-    style?: CSSProperties;
-    tabIndex: number;
-}
 
 export type NodeDataSourceEnum = "xpath" | "microflow" | "nanoflow";
 
@@ -29,7 +22,11 @@ export type EventNodeClickFormatEnum = "single" | "double";
 
 export type EventNodeOnClickOpenPageAsEnum = "content" | "popup" | "modal";
 
-export interface OrgChartContainerProps extends CommonProps {
+export interface OrgChartContainerProps {
+    name: string;
+    class: string;
+    style?: CSSProperties;
+    tabIndex: number;
     nodeEntity: any;
     nodeDataSource: NodeDataSourceEnum;
     nodeConstraint?: any;
@@ -56,50 +53,25 @@ export interface OrgChartContainerProps extends CommonProps {
 export interface OrgChartPreviewProps {
     class: string;
     style: string;
-    styleObject: CSSProperties;
     nodeEntity: any;
     nodeDataSource: NodeDataSourceEnum;
-    nodeConstraint?: any;
-    nodeGetDataMicroflow?: any;
-    nodeGetDataNanoflow?: any;
+    nodeConstraint: any;
+    nodeGetDataMicroflow: any;
+    nodeGetDataNanoflow: any;
     nodeLoadScenario: NodeLoadScenarioEnum;
-    nodeIsRootAttr?: string;
+    nodeIsRootAttr: string;
     childScenario: ChildScenarioEnum;
     childActionMethod: ChildActionMethodEnum;
-    childActionMicroflow?: any;
-    childActionNanoflow?: any;
+    childActionMicroflow: any;
+    childActionNanoflow: any;
     relationType: RelationTypeEnum;
-    relationNodeParent?: any;
-    relationNodeParentHasChildAttr?: string;
-    relationChildReference?: any;
+    relationNodeParent: any;
+    relationNodeParentHasChildAttr: string;
+    relationChildReference: any;
     eventNodeOnClickAction: EventNodeOnClickActionEnum;
     eventNodeClickFormat: EventNodeClickFormatEnum;
-    eventNodeOnClickMicroflow?: any;
-    eventNodeOnClickNanoflow?: any;
-    eventNodeOnClickForm?: any;
+    eventNodeOnClickMicroflow: any;
+    eventNodeOnClickNanoflow: any;
+    eventNodeOnClickForm: any;
     eventNodeOnClickOpenPageAs: EventNodeOnClickOpenPageAsEnum;
-}
-
-export interface VisibilityMap {
-    nodeEntity: boolean;
-    nodeDataSource: boolean;
-    nodeConstraint: boolean;
-    nodeGetDataMicroflow: boolean;
-    nodeGetDataNanoflow: boolean;
-    nodeLoadScenario: boolean;
-    nodeIsRootAttr: boolean;
-    childScenario: boolean;
-    childActionMethod: boolean;
-    childActionMicroflow: boolean;
-    childActionNanoflow: boolean;
-    relationType: boolean;
-    relationNodeParent: boolean;
-    relationNodeParentHasChildAttr: boolean;
-    relationChildReference: boolean;
-    eventNodeOnClickAction: boolean;
-    eventNodeClickFormat: boolean;
-    eventNodeOnClickMicroflow: boolean;
-    eventNodeOnClickNanoflow: boolean;
-    eventNodeOnClickForm: boolean;
-    eventNodeOnClickOpenPageAs: boolean;
 }

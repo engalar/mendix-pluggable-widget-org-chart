@@ -7,7 +7,7 @@ const gulp = require("gulp");
 const webpack = require("webpack");
 const del = require("del");
 const gulpSlash = require("gulp-slash");
-const typingGenerator = require("@mendix/pluggable-widgets-typing-generator");
+const typingGenerator = require("pluggable-widgets-typing-generator");
 
 const cwd = process.cwd();
 const variables = require("./variables");

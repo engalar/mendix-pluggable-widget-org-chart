@@ -32,6 +32,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "pluggable-widgets-typing-generator": "2.0.0",
     "adm-zip": "^0.5.9",
     "request": "^2.88.2",
     "@mendix/pluggable-widgets-tools": "8.6.0",
