@@ -27,7 +27,8 @@
     "test:e2e:dev": "export DEBUG=true || set DEBUG=true && pluggable-widgets-tools test:e2e:ts",
     "prerelease": "npm run lint",
     "release": "node --max_old_space_size=8000 ./node_modules/.bin/pluggable-widgets-tools release:js",
-    "analyze": "node --max_old_space_size=8000 ./node_modules/.bin/pluggable-widgets-tools release:js --analyze"
+    "analyze": "node --max_old_space_size=8000 ./node_modules/.bin/pluggable-widgets-tools release:js --analyze",
+    "generateTypings": "gulp generateTypings --gulpfile script/gulp.js"
   },
   "license": "Apache-2.0",
   "devDependencies": {
