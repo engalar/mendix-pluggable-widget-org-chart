@@ -23,17 +23,11 @@ export type ChildActionMethodEnum = "microflow" | "nanoflow";
 
 export type RelationTypeEnum = "nodeParent" | "nodeChildren";
 
-export type UiNodeTitleTypeEnum = "attribute" | "nanoflow";
-
 export type EventNodeOnClickActionEnum = "nothing" | "microflow" | "nanoflow" | "open";
 
 export type EventNodeClickFormatEnum = "single" | "double";
 
 export type EventNodeOnClickOpenPageAsEnum = "content" | "popup" | "modal";
-
-export type StateManagementTypeEnum = "disabled" | "localStorage";
-
-export type StateLocalStorageTypeEnum = "session" | "local";
 
 export interface OrgChartContainerProps extends CommonProps {
     nodeEntity: any;
@@ -51,35 +45,12 @@ export interface OrgChartContainerProps extends CommonProps {
     relationNodeParent?: any;
     relationNodeParentHasChildAttr?: EditableValue<boolean>;
     relationChildReference?: any;
-    uiNodeTitleType: UiNodeTitleTypeEnum;
-    uiNodeTitleAttr?: EditableValue<string>;
-    uiNodeTitleNanoflow?: any;
-    uiNodeRenderAsHTML: boolean;
-    uiNodeIconAttr?: EditableValue<string>;
-    uiNodeIconIsGlyphicon: boolean;
-    uiNodeClassName?: EditableValue<string>;
-    uiTableShowLines: boolean;
-    uiSwitcherBg?: string;
-    dragIsDraggable: boolean;
-    searchEnabled: boolean;
-    searchHelperEntity?: any;
-    searchStringAttribute?: EditableValue<string>;
-    searchNodeReference?: any;
-    searchNanoflow?: any;
     eventNodeOnClickAction: EventNodeOnClickActionEnum;
     eventNodeClickFormat: EventNodeClickFormatEnum;
     eventNodeOnClickMicroflow?: any;
     eventNodeOnClickNanoflow?: any;
     eventNodeOnClickForm?: any;
     eventNodeOnClickOpenPageAs: EventNodeOnClickOpenPageAsEnum;
-    selectionSelectOnClick: boolean;
-    stateManagementType: StateManagementTypeEnum;
-    stateLocalStorageType: StateLocalStorageTypeEnum;
-    stateLocalStorageTime: number;
-    stateLocalStorageKey?: string;
-    stateLocalStorageKeyIncludeGUID: boolean;
-    stateExecuteSelectActionOnRestore: boolean;
-    experimentalExposeSetSelected: boolean;
 }
 
 export interface OrgChartPreviewProps {
@@ -101,35 +72,12 @@ export interface OrgChartPreviewProps {
     relationNodeParent?: any;
     relationNodeParentHasChildAttr?: string;
     relationChildReference?: any;
-    uiNodeTitleType: UiNodeTitleTypeEnum;
-    uiNodeTitleAttr?: string;
-    uiNodeTitleNanoflow?: any;
-    uiNodeRenderAsHTML: boolean;
-    uiNodeIconAttr?: string;
-    uiNodeIconIsGlyphicon: boolean;
-    uiNodeClassName?: string;
-    uiTableShowLines: boolean;
-    uiSwitcherBg?: string;
-    dragIsDraggable: boolean;
-    searchEnabled: boolean;
-    searchHelperEntity?: any;
-    searchStringAttribute?: string;
-    searchNodeReference?: any;
-    searchNanoflow?: any;
     eventNodeOnClickAction: EventNodeOnClickActionEnum;
     eventNodeClickFormat: EventNodeClickFormatEnum;
     eventNodeOnClickMicroflow?: any;
     eventNodeOnClickNanoflow?: any;
     eventNodeOnClickForm?: any;
     eventNodeOnClickOpenPageAs: EventNodeOnClickOpenPageAsEnum;
-    selectionSelectOnClick: boolean;
-    stateManagementType: StateManagementTypeEnum;
-    stateLocalStorageType: StateLocalStorageTypeEnum;
-    stateLocalStorageTime: number;
-    stateLocalStorageKey?: string;
-    stateLocalStorageKeyIncludeGUID: boolean;
-    stateExecuteSelectActionOnRestore: boolean;
-    experimentalExposeSetSelected: boolean;
 }
 
 export interface VisibilityMap {
@@ -148,33 +96,10 @@ export interface VisibilityMap {
     relationNodeParent: boolean;
     relationNodeParentHasChildAttr: boolean;
     relationChildReference: boolean;
-    uiNodeTitleType: boolean;
-    uiNodeTitleAttr: boolean;
-    uiNodeTitleNanoflow: boolean;
-    uiNodeRenderAsHTML: boolean;
-    uiNodeIconAttr: boolean;
-    uiNodeIconIsGlyphicon: boolean;
-    uiNodeClassName: boolean;
-    uiTableShowLines: boolean;
-    uiSwitcherBg: boolean;
-    dragIsDraggable: boolean;
-    searchEnabled: boolean;
-    searchHelperEntity: boolean;
-    searchStringAttribute: boolean;
-    searchNodeReference: boolean;
-    searchNanoflow: boolean;
     eventNodeOnClickAction: boolean;
     eventNodeClickFormat: boolean;
     eventNodeOnClickMicroflow: boolean;
     eventNodeOnClickNanoflow: boolean;
     eventNodeOnClickForm: boolean;
     eventNodeOnClickOpenPageAs: boolean;
-    selectionSelectOnClick: boolean;
-    stateManagementType: boolean;
-    stateLocalStorageType: boolean;
-    stateLocalStorageTime: boolean;
-    stateLocalStorageKey: boolean;
-    stateLocalStorageKeyIncludeGUID: boolean;
-    stateExecuteSelectActionOnRestore: boolean;
-    experimentalExposeSetSelected: boolean;
 }
