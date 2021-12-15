@@ -12,6 +12,13 @@
                     <caption>雇员实体</caption>
                     <description></description>
                 </property>
+                <property key="nameAttribute" type="attribute" required="true" entityProperty="nodeEntity">
+                    <caption>姓名属性</caption>
+                    <description></description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
             </propertyGroup>
             <propertyGroup caption="方法">
                 <property key="nodeDataSource" type="enumeration" defaultValue="xpath">

@@ -3,8 +3,6 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix UI Content Team
  */
-import { CSSProperties } from "react";
-import { EditableValue } from "mendix";
 
 export type NodeDataSourceEnum = "xpath" | "microflow" | "nanoflow";
 
@@ -25,22 +23,23 @@ export type EventNodeOnClickOpenPageAsEnum = "content" | "popup" | "modal";
 export interface OrgChartContainerProps {
     name: string;
     class: string;
-    style?: CSSProperties;
+    style: string;
     tabIndex: number;
     nodeEntity: any;
+    nameAttribute: string;
     nodeDataSource: NodeDataSourceEnum;
     nodeConstraint?: any;
     nodeGetDataMicroflow?: any;
     nodeGetDataNanoflow?: any;
     nodeLoadScenario: NodeLoadScenarioEnum;
-    nodeIsRootAttr?: EditableValue<boolean>;
+    nodeIsRootAttr?: string;
     childScenario: ChildScenarioEnum;
     childActionMethod: ChildActionMethodEnum;
     childActionMicroflow?: any;
     childActionNanoflow?: any;
     relationType: RelationTypeEnum;
     relationNodeParent?: any;
-    relationNodeParentHasChildAttr?: EditableValue<boolean>;
+    relationNodeParentHasChildAttr?: string;
     relationChildReference?: any;
     eventNodeOnClickAction: EventNodeOnClickActionEnum;
     eventNodeClickFormat: EventNodeClickFormatEnum;
@@ -54,6 +53,7 @@ export interface OrgChartPreviewProps {
     class: string;
     style: string;
     nodeEntity: any;
+    nameAttribute: string;
     nodeDataSource: NodeDataSourceEnum;
     nodeConstraint: any;
     nodeGetDataMicroflow: any;

@@ -1,16 +1,16 @@
-import { createElement, useEffect, useRef } from "react";
-// import {
-//     fetchByXpath
-// } from "@jeltemx/mendix-react-widget-utils";
+import { createElement, useEffect, useMemo, useRef } from "react";
 import { Graph, Cell, Node, Color, Dom, Edge } from "@antv/x6";
 import dagre from "dagre";
 
 import { OrgChartContainerProps } from "../typings/OrgChartProps";
 
 import "./ui/index.scss";
-import { useMount } from "ahooks";
+import { useMount, useWhyDidYouUpdate } from "ahooks";
 import classNames from "classnames";
 import { fetchByXpath } from "@jeltemx/mendix-react-widget-utils";
+import { Store } from "./store";
+import { observer } from "mobx-react";
+import { runInAction } from "mobx";
 
 export const parseStyle = (style = ""): { [key: string]: string } => {
     try {
@@ -194,7 +194,7 @@ const female = "https://gw.alipayobjects.com/mdn/rms_43231b/afts/img/A*f6hhT75Yj
 // 布局方向
 const dir: "LR" | "RL" | "TB" | "BT" = "TB"; // LR RL TB BT
 
-export default function(
+export default observer((
     props: OrgChartContainerProps & {
         uniqueid: string;
         friendlyId?: string;
@@ -202,14 +202,17 @@ export default function(
         mxObject?: mendix.lib.MxObject;
         style: string;
     }
-) {
+) => {
     const ref = useRef<any>();
+
+    const stateStore = useMemo(() => new Store(props.nameAttribute), []);
 
     useEffect(() => {
         if (props.mxObject) {
             fetchByXpath(props.mxObject, props.nodeEntity, props.nodeConstraint).then(objs => {
-                console.log(objs);
-                debugger;
+                runInAction(() => {
+                    stateStore.load(objs);
+                })
             });
         }
     }, [props.mxObject]);
@@ -371,6 +374,12 @@ export default function(
         setup();
     });
 
+    useWhyDidYouUpdate(props.friendlyId!, { ...props })
+    useWhyDidYouUpdate(props.friendlyId!, {
+        edges: stateStore.edges,
+        nodes: stateStore.employees
+    })
+
     return (
         <div
             className={classNames(props.class, "mxcn-org-chart")}
@@ -379,3 +388,4 @@ export default function(
         ></div>
     );
 }
+)

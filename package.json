@@ -28,7 +28,8 @@
     "prerelease": "npm run lint",
     "release": "node --max_old_space_size=8000 ./node_modules/.bin/pluggable-widgets-tools release:js",
     "analyze": "node --max_old_space_size=8000 ./node_modules/.bin/pluggable-widgets-tools release:js --analyze",
-    "generateTypings": "gulp generateTypings --gulpfile script/gulp.js"
+    "generateTypings": "gulp generateTypings --gulpfile script/gulp.js",
+    "openTestProject": "start tests/testProject/mendix-testproject-800-main/testProject.mpr"
   },
   "license": "Apache-2.0",
   "devDependencies": {
