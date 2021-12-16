@@ -5,6 +5,10 @@
     cursor: pointer;
 }
 
-.mxcn-org-chart {
-    min-height: 300px;
+.mxcn-org-chart-wrapper {
+    height: 100%;
+
+    .mxcn-org-chart {
+        min-height: 300px;
+    }
 }

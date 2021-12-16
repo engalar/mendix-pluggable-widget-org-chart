@@ -1,11 +1,11 @@
-import { createElement, useEffect, useMemo, useRef } from "react";
+import { createElement, useEffect, useMemo, useRef, useState } from "react";
 import { Graph, Cell, Node, Color, Dom, Edge } from "@antv/x6";
 import dagre from "dagre";
 
 import { OrgChartContainerProps } from "../typings/OrgChartProps";
 
 import "./ui/index.scss";
-import { useWhyDidYouUpdate } from "ahooks";
+import { useSize, useWhyDidYouUpdate } from "ahooks";
 import classNames from "classnames";
 import { fetchByXpath } from "@jeltemx/mendix-react-widget-utils";
 import { Store } from "./store";
@@ -204,6 +204,15 @@ export default observer((
     }
 ) => {
     const ref = useRef<any>();
+    const ref2 = useRef<any>();
+    const size = useSize(ref2);
+    const [graphInstance, setGraphInstance] = useState<Graph>();
+
+    useEffect(() => {
+        if (graphInstance && size?.width && size.height) {
+            graphInstance.resize(size.width, size.height);
+        }
+    }, [graphInstance, size]);
 
     const stateStore = useMemo(() => new Store(props.nameAttribute, props.relationNodeParent), []);
 
@@ -222,10 +231,12 @@ export default observer((
         const graph = new Graph({
             container: ref.current,
             grid: true,
+            autoResize: false,
             scroller: true,
             snapline: true,
             interacting: false
         });
+        setGraphInstance(graph);
 
         // 监听自定义事件
         function setup() {
@@ -381,11 +392,13 @@ export default observer((
     })
 
     return (
-        <div
-            className={classNames(props.class, "mxcn-org-chart")}
-            style={{ ...parseStyle(props.style), height: "100%", width: "inherit" }}
-            ref={ref}
-        ></div>
+        <div ref={ref2} className="mxcn-org-chart-wrapper">
+            <div
+                className={classNames(props.class, "mxcn-org-chart")}
+                style={{ ...parseStyle(props.style) }}
+                ref={ref}
+            ></div>
+        </div>
     );
 }
 )
