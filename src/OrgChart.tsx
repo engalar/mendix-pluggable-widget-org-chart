@@ -5,12 +5,12 @@ import dagre from "dagre";
 import { OrgChartContainerProps } from "../typings/OrgChartProps";
 
 import "./ui/index.scss";
-import { useMount, useWhyDidYouUpdate } from "ahooks";
+import { useWhyDidYouUpdate } from "ahooks";
 import classNames from "classnames";
 import { fetchByXpath } from "@jeltemx/mendix-react-widget-utils";
 import { Store } from "./store";
 import { observer } from "mobx-react";
-import { runInAction } from "mobx";
+import { reaction, runInAction } from "mobx";
 
 export const parseStyle = (style = ""): { [key: string]: string } => {
     try {
@@ -217,7 +217,7 @@ export default observer((
         }
     }, [props.mxObject]);
 
-    useMount(() => {
+    useEffect(() => {
         // 创建画布
         const graph = new Graph({
             container: ref.current,
@@ -251,6 +251,22 @@ export default observer((
                 layout();
             });
         }
+
+        const disposer = reaction(() => ({ employees: stateStore.employees, edges: stateStore.edges }), ({ employees, edges }) => {
+            graph.freeze();
+            const nodes = Array.from(employees.values()).map(employee => {
+                return createNode("Founder & Chairman", employee.name, male, "#31d0c6", '#000', employee.mxobj.getGuid());
+            });
+            const edges2 = Array.from(edges.values()).map(edge => {
+                return graph.createEdge({
+                    shape: "org-edge",
+                    source: { cell: edge.from },
+                    target: { cell: edge.to }
+                });
+            });
+            graph.resetCells([...nodes, ...edges2]);
+            layout();
+        })
 
         // 自动布局
         function layout() {
@@ -322,8 +338,9 @@ export default observer((
             graph.unfreeze();
         }
 
-        function createNode(rank: string, name: string, image: string, background: string, textColor = "#000") {
+        function createNode(rank: string, name: string, image: string, background: string, textColor = "#000", id?: string) {
             return graph.createNode({
+                id: id,
                 shape: "org-node",
                 attrs: {
                     ".card": { fill: background },
@@ -350,29 +367,12 @@ export default observer((
             });
         }
 
-        const nodes = [
-            createNode("Founder & Chairman", "Pierre Omidyar", male, "#31d0c6"),
-            createNode("President & CEO", "Margaret C. Whitman", female, "#31d0c6"),
-            createNode("President, PayPal", "Scott Thompson", male, "#7c68fc"),
-            createNode("President, Ebay Global Marketplaces", "Devin Wenig", male, "#7c68fc"),
-            createNode("Senior Vice President Human Resources", "Jeffrey S. Skoll", male, "#fe854f"),
-            createNode("Senior Vice President Controller", "Steven P. Westly", male, "#feb663")
-        ];
-
-        const edges = [
-            createEdge(nodes[0], nodes[1]),
-            createEdge(nodes[1], nodes[2]),
-            createEdge(nodes[1], nodes[3]),
-            createEdge(nodes[1], nodes[4]),
-            createEdge(nodes[1], nodes[5])
-        ];
-
-        graph.resetCells([...nodes, ...edges]);
-        layout();
-        graph.zoomTo(0.8);
-        graph.centerContent();
         setup();
-    });
+        return () => {
+            disposer();
+            graph.dispose();
+        }
+    }, []);
 
     useWhyDidYouUpdate(props.friendlyId!, { ...props })
     useWhyDidYouUpdate(props.friendlyId!, {
