@@ -205,7 +205,7 @@ export default observer((
 ) => {
     const ref = useRef<any>();
 
-    const stateStore = useMemo(() => new Store(props.nameAttribute), []);
+    const stateStore = useMemo(() => new Store(props.nameAttribute, props.relationNodeParent), []);
 
     useEffect(() => {
         if (props.mxObject) {

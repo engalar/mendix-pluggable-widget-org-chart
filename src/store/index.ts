@@ -5,13 +5,12 @@ import { OrgEdge } from "./objects/OrgEdge";
 configure({ enforceActions: "observed", isolateGlobalState: true });
 
 export class Store {
-    employees = observable.map();
+    employees = observable.map<string, OrgEmployee>();
     @computed
     public get edges(): OrgEdge[] {
         const edges: OrgEdge[] = [];
         this.employees.forEach(employee => {
-            console.log(employee.name);
-            edges.push({ from: employee.name, to: employee.name });
+            if (employee.parentEdge) edges.push(employee.parentEdge);
         });
         return edges;
     }
@@ -24,9 +23,7 @@ export class Store {
             set(this.employees, obj.getGuid(), new OrgEmployee(this.employeeOption, obj));
         });
     }
-    constructor(public nameAttribute: string) {
-        this.employeeOption = {
-            nameAttribute
-        };
+    constructor(public nameAttribute: string, parentAttribute: string) {
+        this.employeeOption = new EmployeeOption(nameAttribute, parentAttribute);
     }
 }
