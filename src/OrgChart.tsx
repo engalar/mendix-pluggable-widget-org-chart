@@ -7,7 +7,7 @@ import { OrgChartContainerProps } from "../typings/OrgChartProps";
 import "./ui/index.scss";
 import { useSize, useWhyDidYouUpdate } from "ahooks";
 import classNames from "classnames";
-import { executeNanoflow, fetchByXpath, getObjectContextFromId } from "@jeltemx/mendix-react-widget-utils";
+import { executeMicroflow, executeNanoflow, fetchByXpath, getObjectContext } from "@jeltemx/mendix-react-widget-utils";
 import { Store } from "./store";
 import { observer } from "mobx-react";
 import { reaction, runInAction } from "mobx";
@@ -253,10 +253,25 @@ export default observer((
         if (graphInstance) {
             graphInstance.on("node:sel", ({ e, node }: { e: any; node: any }) => {
                 e.stopPropagation();
-                executeNanoflow(props.eventNodeOnClickNanoflow, getObjectContextFromId(node.id, props.nodeEntity), props.mxform, true);
+
+                //https://forum.mendix.tencent-cloud.com/info/5056c15d696b464eb451f138522cf47f
+                //@ts-ignore
+                // mx.data.updateInCache(stateStore.employees.get(node.id)!.mxobj.jsonData);
+
+                const context = getObjectContext(stateStore.employees.get(node.id)!.mxobj);
+                if (props.eventNodeOnClickAction === 'nanoflow') {
+                    executeNanoflow(props.eventNodeOnClickNanoflow, context, props.mxform, true);
+                } else if (props.eventNodeOnClickAction === 'microflow') {
+                    executeMicroflow(props.eventNodeOnClickMicroflow, context, props.mxform, true);
+                } else if (props.eventNodeOnClickAction === 'open') {
+
+                }
             });
         }
-    }, [graphInstance]);
+        return () => {
+            graphInstance?.off('node:sel');
+        }
+    }, [graphInstance, props.mxform]);
 
     const stateStore = useMemo(() => new Store(props.nameAttribute, props.relationNodeParent), []);
 

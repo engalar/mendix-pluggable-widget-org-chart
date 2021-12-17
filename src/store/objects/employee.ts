@@ -19,6 +19,14 @@ export class OrgEmployee {
 
     constructor(public opt: EmployeeOption, mxobj: mendix.lib.MxObject) {
         this.mxobj = mxobj;
+
+        //https://forum.mendix.tencent-cloud.com/info/5056c15d696b464eb451f138522cf47f
+        mx.data.subscribe({
+            guid: this.mxobj.getGuid(),
+            callback(guid) {
+                console.log(guid);
+            }
+        });
     }
     @computed public get parentEdge(): OrgEdge | undefined {
         const toGuid = this.mxobj.get(this.opt.parentAttribute) as string;
