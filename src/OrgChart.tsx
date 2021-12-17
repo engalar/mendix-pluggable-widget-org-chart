@@ -7,7 +7,7 @@ import { OrgChartContainerProps } from "../typings/OrgChartProps";
 import "./ui/index.scss";
 import { useSize, useWhyDidYouUpdate } from "ahooks";
 import classNames from "classnames";
-import { fetchByXpath } from "@jeltemx/mendix-react-widget-utils";
+import { executeNanoflow, fetchByXpath, getObjectContextFromId } from "@jeltemx/mendix-react-widget-utils";
 import { Store } from "./store";
 import { observer } from "mobx-react";
 import { reaction, runInAction } from "mobx";
@@ -59,6 +59,25 @@ Graph.registerNode(
                 }
             },
             {
+                tagName: "g",
+                attrs: {
+                    class: "btn sel"
+                },
+                children: [
+                    {
+                        tagName: "circle",
+                        attrs: {
+                            class: "sel"
+                        }
+                    },
+                    {
+                        tagName: "text",
+                        attrs: {
+                            class: "S"
+                        }
+                    }
+                ]
+            }, {
                 tagName: "g",
                 attrs: {
                     class: "btn add"
@@ -143,6 +162,11 @@ Graph.registerNode(
                 refY: 16,
                 event: "node:delete"
             },
+            ".btn.sel": {
+                refDx: -76,
+                refY: 16,
+                event: "node:sel"
+            },
             ".btn > circle": {
                 r: 10,
                 fill: "transparent",
@@ -166,6 +190,15 @@ Graph.registerNode(
                 y: 6,
                 fontFamily: "Times New Roman",
                 text: "-"
+            },
+            ".btn.sel > text": {
+                fontSize: 28,
+                fontWeight: 500,
+                stroke: "#000",
+                x: -3.5,
+                y: 6,
+                fontFamily: "Times New Roman",
+                text: "s"
             }
         }
     },
@@ -211,8 +244,19 @@ export default observer((
     useEffect(() => {
         if (graphInstance && size?.width && size.height) {
             graphInstance.resize(size.width, size.height);
+            graphInstance.center();
         }
     }, [graphInstance, size]);
+
+
+    useEffect(() => {
+        if (graphInstance) {
+            graphInstance.on("node:sel", ({ e, node }: { e: any; node: any }) => {
+                e.stopPropagation();
+                executeNanoflow(props.eventNodeOnClickNanoflow, getObjectContextFromId(node.id, props.nodeEntity), props.mxform, true);
+            });
+        }
+    }, [graphInstance]);
 
     const stateStore = useMemo(() => new Store(props.nameAttribute, props.relationNodeParent), []);
 

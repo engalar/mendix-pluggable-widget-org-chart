@@ -24,8 +24,8 @@ export class OrgEmployee {
         const toGuid = this.mxobj.get(this.opt.parentAttribute) as string;
         return toGuid
             ? {
-                  from: this.mxobj.getGuid(),
-                  to: toGuid
+                  to: this.mxobj.getGuid(),
+                  from: toGuid
               }
             : undefined;
     }
