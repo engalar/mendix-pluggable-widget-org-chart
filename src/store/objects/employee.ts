@@ -13,6 +13,7 @@ export class EmployeeOption {
 }
 export class OrgEmployee {
     @observable public mxobj: mendix.lib.MxObject;
+    sub: number;
     @computed public get name(): string {
         return this.mxobj.get(this.opt.nameAttribute) as string;
     }
@@ -21,12 +22,15 @@ export class OrgEmployee {
         this.mxobj = mxobj;
 
         //https://forum.mendix.tencent-cloud.com/info/5056c15d696b464eb451f138522cf47f
-        mx.data.subscribe({
+        this.sub = mx.data.subscribe({
             guid: this.mxobj.getGuid(),
             callback(guid) {
                 console.log(guid);
             }
         });
+    }
+    public dispose(): void {
+        mx.data.unsubscribe(this.sub);
     }
     @computed public get parentEdge(): OrgEdge | undefined {
         const toGuid = this.mxobj.get(this.opt.parentAttribute) as string;

@@ -5,9 +5,9 @@ import dagre from "dagre";
 import { OrgChartContainerProps } from "../typings/OrgChartProps";
 
 import "./ui/index.scss";
-import { useSize, useWhyDidYouUpdate } from "ahooks";
+import { useRequest, useSize, useWhyDidYouUpdate } from "ahooks";
 import classNames from "classnames";
-import { executeMicroflow, executeNanoflow, fetchByXpath, getObjectContext } from "@jeltemx/mendix-react-widget-utils";
+import { executeAction, fetchByXpath, getObjectContext, IAction } from "@jeltemx/mendix-react-widget-utils";
 import { Store } from "./store";
 import { observer } from "mobx-react";
 import { reaction, runInAction } from "mobx";
@@ -59,25 +59,6 @@ Graph.registerNode(
                 }
             },
             {
-                tagName: "g",
-                attrs: {
-                    class: "btn sel"
-                },
-                children: [
-                    {
-                        tagName: "circle",
-                        attrs: {
-                            class: "sel"
-                        }
-                    },
-                    {
-                        tagName: "text",
-                        attrs: {
-                            class: "S"
-                        }
-                    }
-                ]
-            }, {
                 tagName: "g",
                 attrs: {
                     class: "btn add"
@@ -162,11 +143,6 @@ Graph.registerNode(
                 refY: 16,
                 event: "node:delete"
             },
-            ".btn.sel": {
-                refDx: -76,
-                refY: 16,
-                event: "node:sel"
-            },
             ".btn > circle": {
                 r: 10,
                 fill: "transparent",
@@ -190,15 +166,6 @@ Graph.registerNode(
                 y: 6,
                 fontFamily: "Times New Roman",
                 text: "-"
-            },
-            ".btn.sel > text": {
-                fontSize: 28,
-                fontWeight: 500,
-                stroke: "#000",
-                x: -3.5,
-                y: 6,
-                fontFamily: "Times New Roman",
-                text: "s"
             }
         }
     },
@@ -248,28 +215,29 @@ export default observer((
         }
     }, [graphInstance, size]);
 
+    const { run: onNodeClick } = useRequest(executeAction, { debounceWait: 200, debounceLeading: true, manual: true });
 
     useEffect(() => {
         if (graphInstance) {
-            graphInstance.on("node:sel", ({ e, node }: { e: any; node: any }) => {
-                e.stopPropagation();
+            graphInstance.on('selection:changed', e => {
+                if (e.selected.length > 0) {
+                    const context = getObjectContext(stateStore.employees.get(e.selected[0].id)!.mxobj);
 
-                //https://forum.mendix.tencent-cloud.com/info/5056c15d696b464eb451f138522cf47f
-                //@ts-ignore
-                // mx.data.updateInCache(stateStore.employees.get(node.id)!.mxobj.jsonData);
+                    const action: IAction = {};
+                    if (props.eventNodeOnClickAction === 'nanoflow') {
+                        action.nanoflow = props.eventNodeOnClickNanoflow;
+                    } else if (props.eventNodeOnClickAction === 'microflow') {
+                        action.microflow = props.eventNodeOnClickMicroflow;
+                    } else if (props.eventNodeOnClickAction === 'open') {
+                        action.page = props.eventNodeOnClickForm;
+                    }
 
-                const context = getObjectContext(stateStore.employees.get(node.id)!.mxobj);
-                if (props.eventNodeOnClickAction === 'nanoflow') {
-                    executeNanoflow(props.eventNodeOnClickNanoflow, context, props.mxform, true);
-                } else if (props.eventNodeOnClickAction === 'microflow') {
-                    executeMicroflow(props.eventNodeOnClickMicroflow, context, props.mxform, true);
-                } else if (props.eventNodeOnClickAction === 'open') {
-
+                    onNodeClick(action, true, context, props.mxform);
                 }
             });
         }
         return () => {
-            graphInstance?.off('node:sel');
+            graphInstance?.off('selection:changed');
         }
     }, [graphInstance, props.mxform]);
 
@@ -292,6 +260,12 @@ export default observer((
             grid: true,
             autoResize: false,
             scroller: true,
+            selecting: {
+                enabled: true,
+                multiple: false,
+                movable: false,
+                showNodeSelectionBox: true,
+            },
             snapline: true,
             interacting: false
         });
@@ -376,8 +350,6 @@ export default observer((
                 const sourceBBox = source.getBBox();
                 const targetBBox = target.getBBox();
 
-                console.log(sourceBBox, targetBBox);
-
                 if ((dir === "LR" || dir === "RL") && sourceBBox.y !== targetBBox.y) {
                     const gap =
                         dir === "LR"
@@ -441,6 +413,7 @@ export default observer((
         return () => {
             disposer();
             graph.dispose();
+            stateStore.dispose();
         }
     }, []);
 

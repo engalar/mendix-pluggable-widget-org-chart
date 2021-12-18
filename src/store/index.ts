@@ -26,4 +26,8 @@ export class Store {
     constructor(public nameAttribute: string, parentAttribute: string) {
         this.employeeOption = new EmployeeOption(nameAttribute, parentAttribute);
     }
+
+    public dispose(): void {
+        this.employees.forEach(e => e.dispose());
+    }
 }
