@@ -4,7 +4,7 @@
  * @author Mendix UI Content Team
  */
 
-export type NodeDataSourceEnum = "xpath" | "microflow" | "nanoflow";
+export type NodeDataSourceEnum = "xpath" | "microflow" | "nanoflow" | "nodeAssociation";
 
 export type NodeLoadScenarioEnum = "all" | "top";
 
@@ -31,6 +31,8 @@ export interface OrgChartContainerProps {
     nodeConstraint?: any;
     nodeGetDataMicroflow?: any;
     nodeGetDataNanoflow?: any;
+    nodeAssociation?: string;
+    selectedAssociation: string;
     nodeLoadScenario: NodeLoadScenarioEnum;
     nodeIsRootAttr?: string;
     childScenario: ChildScenarioEnum;

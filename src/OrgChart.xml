@@ -26,9 +26,14 @@
                     <description>选择如何查询雇员</description>
                     <enumerationValues>
                         <enumerationValue key="xpath">XPath</enumerationValue>
+                        <enumerationValue key="association">关联</enumerationValue>
                         <enumerationValue key="microflow">微流</enumerationValue>
                         <enumerationValue key="nanoflow">纳流</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="nodeAssociation" type="entity" required="false" allowNonPersistableEntities="true" isPath="yes" pathType="referenceSet">
+                    <caption>关联雇员</caption>
+                    <description></description>
                 </property>
                 <property key="nodeConstraint" required="false" type="entityConstraint" entityProperty="nodeEntity">
                     <caption>过滤条件</caption>
@@ -151,12 +156,12 @@
                         <enumerationValue key="double">双击</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="eventNodeOnClickMicroflow" type="microflow" required="false" entityProperty="nodeEntity">
+                <property key="eventNodeOnClickMicroflow" type="microflow" required="false">
                     <caption>调用微流</caption>
                     <description></description>
                     <returnType type="Void" />
                 </property>
-                <property key="eventNodeOnClickNanoflow" type="nanoflow" required="false" entityProperty="nodeEntity">
+                <property key="eventNodeOnClickNanoflow" type="nanoflow" required="false">
                     <caption>调用纳流</caption>
                     <description></description>
                     <returnType type="Void" />
@@ -177,5 +182,11 @@
             </propertyGroup>
         </propertyGroup>
 
+        <propertyGroup caption="选择">
+            <property key="selectedAssociation" type="entity" required="true" allowNonPersistableEntities="true" isPath="yes" pathType="reference">
+                <caption>所选雇员</caption>
+                <description></description>
+            </property>
+        </propertyGroup>
     </properties>
 </widget>

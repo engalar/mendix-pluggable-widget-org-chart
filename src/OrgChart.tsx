@@ -7,7 +7,7 @@ import { OrgChartContainerProps } from "../typings/OrgChartProps";
 import "./ui/index.scss";
 import { useRequest, useSize, useWhyDidYouUpdate } from "ahooks";
 import classNames from "classnames";
-import { executeAction, fetchByXpath, getObjectContext, IAction } from "@jeltemx/mendix-react-widget-utils";
+import { executeAction, getObjectContext, getObjects, getReferencePart, IAction } from "@jeltemx/mendix-react-widget-utils";
 import { Store } from "./store";
 import { observer } from "mobx-react";
 import { reaction, runInAction } from "mobx";
@@ -218,10 +218,12 @@ export default observer((
     const { run: onNodeClick } = useRequest(executeAction, { debounceWait: 200, debounceLeading: true, manual: true });
 
     useEffect(() => {
-        if (graphInstance) {
+        if (graphInstance && props.mxObject) {
+            const selectedAssociation = getReferencePart(props.selectedAssociation, 'referenceAttr');
             graphInstance.on('selection:changed', e => {
                 if (e.selected.length > 0) {
-                    const context = getObjectContext(stateStore.employees.get(e.selected[0].id)!.mxobj);
+                    props.mxObject?.addReference(getReferencePart(selectedAssociation), e.selected[0].id);
+                    const context = getObjectContext(props.mxObject!);
 
                     const action: IAction = {};
                     if (props.eventNodeOnClickAction === 'nanoflow') {
@@ -233,22 +235,26 @@ export default observer((
                     }
 
                     onNodeClick(action, true, context, props.mxform);
+                } else {
+                    props.mxObject?.set(selectedAssociation, undefined);
                 }
             });
         }
         return () => {
             graphInstance?.off('selection:changed');
         }
-    }, [graphInstance, props.mxform]);
+    }, [graphInstance, props.mxform, props.mxObject]);
 
     const stateStore = useMemo(() => new Store(props.nameAttribute, props.relationNodeParent), []);
 
     useEffect(() => {
         if (props.mxObject) {
-            fetchByXpath(props.mxObject, props.nodeEntity, props.nodeConstraint).then(objs => {
+            const reference = getReferencePart(props.nodeAssociation, 'referenceAttr');
+            const references = props.mxObject.getReferences(reference);
+            getObjects(references).then(objs => {
                 runInAction(() => {
                     stateStore.load(objs);
-                })
+                });
             });
         }
     }, [props.mxObject]);
