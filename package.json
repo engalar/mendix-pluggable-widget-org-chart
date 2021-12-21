@@ -6,15 +6,15 @@
   "copyright": "2021 Mendix",
   "author": "Liu Wengao <wengao.liu@siemens.com>",
   "config": {
-    "widgetPath": "./tests/testProject/mendix-testproject-800-main/widgets",
-    "projectPath": "./tests/testProject/mendix-testproject-800-main/",
+    "widgetPath": "./tests/testProject/widgets",
+    "projectPath": "./tests/testProject/",
     "mendixHost": "http://127.0.0.1:8080",
     "developmentPort": "3000"
   },
   "packagePath": "com.mendix.widget.custom",
   "scripts": {
     "x": "npm i --registry=https://registry.npmmirror.com",
-    "testProject": "node ./script/downloadTestProject.js",
+    "testProject": "cmd /c git clone https://gitee.com/engalar/mendix-testproject-800.git --depth=1 ./tests/testProject && rd /s /q  .\\tests\\testProject\\.git",
     "start": "concurrently \"pluggable-widgets-tools start:server --open\" \"npm:dev\"",
     "dev": "pluggable-widgets-tools start:js",
     "build": "pluggable-widgets-tools build:js",
@@ -29,7 +29,9 @@
     "release": "node --max_old_space_size=8000 ./node_modules/.bin/pluggable-widgets-tools release:js",
     "analyze": "node --max_old_space_size=8000 ./node_modules/.bin/pluggable-widgets-tools release:js --analyze",
     "generateTypings": "gulp generateTypings --gulpfile script/gulp.js",
-    "openTestProject": "start tests/testProject/mendix-testproject-800-main/testProject.mpr"
+    "openTestProject": "start tests/testProject/testProject.mpr",
+    "backupTestProject": "cmd /c mkdir dummy\\deployment\\data\\database\\hsqldb && mkdir dummy\\widgets && copy tests\\testProject\\testProject.mpr dummy\\ /Y && copy tests\\testProject\\deployment\\data\\database\\hsqldb\\default\\default.script dummy\\deployment\\data\\database\\hsqldb\\default",
+    "restoreTestProject": "cmd /c xcopy dummy tests\\testProject /E /Y"
   },
   "license": "Apache-2.0",
   "devDependencies": {
